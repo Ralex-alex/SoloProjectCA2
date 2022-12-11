@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>CA2 Labwork</title>  <!-- Title of my project -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+        
+         <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+         crossorigin="">
+             
+         </script>
+        <link rel="stylesheet" href="ca2_css.css"/>
+    </head>
+    <body>
+        <h1>A Satelite updating in REAL TIME!!!</h1>
+        <h2> zoom in to see the satelite move in real time</h2>
+        <h3>If you want to learn more about the <a href="AboutSatelite.html">Satelite click here</a></h3>
+        
+        <p>latitude: <span id="lat"></span> 
+            <br>
+           longitude: <span id="lon"></span> 
+           <br>
+           velocity: <span id="vel"></span>
+        
+        </p>
+        
+        <div id="issMap"></div>
+        
+         <script>
+         const map = L.map('issMap').setView([0, 0], 1);
+         
+         var issIcon = L.icon({
+         iconUrl: 'satelite.png',
+         iconSize: [50, 32],
+         iconAnchor: [25, 16],
+         });
+         
+         
+         const marker = L.marker([0, 0],{icon: issIcon}).addTo(map);
+         
+         const attribution = 
+            '&copy; <a href="http://www.openstreetmap.org/copyright</a>';
+    
+         
+        const tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tiles = L.tileLayer(tileUrl,{ attribution });
+        tiles.addTo(map);
+        const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+        
+           async function onMapClick(map) {
+            alert("You clicked the map at " + map.latlng);
+            }
+
+            map.on('click', onMapClick);
+            
+            let firstTime = true;
+       
+         async function getISS(){ 
+             const response = await fetch(api_url);
+             const data = await response.json();
+             const { latitude , longitude , velocity} = data;
+             
+             marker.setLatLng([latitude, longitude]);
+             if (firstTime){
+             map.setView([latitude, longitude], 2);
+             firstTime = false;
+             }
+             document.getElementById('lat').textContent = latitude.toFixed(3);
+             document.getElementById('lon').textContent = longitude.toFixed(3);
+             document.getElementById('vel').textContent = velocity.toFixed(3);
+         }
+         
+         
+   
+          getISS();
+          
+          setInterval(getISS, 1000);
+          
+        </script>
+    </body>
+</html>

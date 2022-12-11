@@ -1,0 +1,42 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 11 Dec 2022, 04:40:20
+    Author     : alex1
+*/
+
+#issMap { width: 2300px; height: 1000px; }
+
+body{
+    
+    background-color:#d58512;
+    
+    
+}
+
+#issMap{
+   
+   border-style: solid;
+    border-color: black;
+}
+
+#lat , #lon , #vel{
+    font-weight: bold;
+    
+}
+
+#p1 , #fet{
+    
+     font-size: 25px;
+    
+   
+}
+
+
+#pic{
+    float: left;
+  height: 300px;
+
+}
